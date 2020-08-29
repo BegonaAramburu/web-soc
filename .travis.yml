@@ -9,4 +9,3 @@ notifications:
     - begona.aramburu@gmail.com
 script:
 - mvn org.jacoco:jacoco-maven-plugin:prepare-agent verify
- 
