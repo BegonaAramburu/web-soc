@@ -3,6 +3,9 @@ package com.aramburu.websoc.api_rest_controllers;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.aramburu.websoc.business_controllers.CenterController;
 import com.aramburu.websoc.dtos.CenterDto;
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -18,6 +22,7 @@ import reactor.core.publisher.Mono;
 public class CenterResource {
 	
 	public static final String CENTERS = "/public/training/centers";
+	public static final String CENTER_ID = "/{id}";
 	
 	@Autowired
 	public CenterController centerController;
@@ -27,5 +32,27 @@ public class CenterResource {
 		return this.centerController.createCenterDto(centerDto);	
 	}
 
+	@GetMapping
+	public Flux<CenterDto> getAll(){
+		return this.centerController.getAllCenterDto();
+	}
+	
+	@GetMapping(value = CENTER_ID)
+	public Mono<CenterDto> getById(@PathVariable String id) {
+		Mono<String> idMono = Mono.just(id);
+		return this.centerController.getCenterById(idMono);
+				
+	}
+	
+	@DeleteMapping(value = CENTER_ID)
+	public Mono<Void> deleteCenter(@PathVariable String id) {
+		Mono<String> idMono = Mono.just(id);
+		return this.centerController.deleteCenterById(idMono);
+	}
+	
+	@DeleteMapping
+	public Mono<Void> deleteAllCenters() {
+		return this.centerController.deleteAllCenters();
+	}
 }
 

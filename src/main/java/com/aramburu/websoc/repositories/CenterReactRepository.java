@@ -5,7 +5,11 @@ import org.springframework.stereotype.Repository;
 
 import com.aramburu.websoc.documents.Center;
 
+import reactor.core.publisher.Mono;
+
 @Repository
 public interface CenterReactRepository extends ReactiveSortingRepository<Center, String> {
+	
+	Mono<Center> findByCode(Integer code);
 
 }

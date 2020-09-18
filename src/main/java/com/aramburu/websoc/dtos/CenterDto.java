@@ -1,7 +1,6 @@
 package com.aramburu.websoc.dtos;
 
 import com.aramburu.websoc.documents.Center;
-import com.aramburu.websoc.dtos.validations.StringNotNullOrEmpty;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -15,6 +14,8 @@ import org.springframework.validation.annotation.Validated;
 public class CenterDto {
 	
 	private String id;
+	
+	private Integer code;
 	
 	//@StringNotNullOrEmpty
 	private String name;
@@ -53,23 +54,15 @@ public class CenterDto {
 	
 	public CenterDto() {}
 	
-	public CenterDto(String id, String name, String email, String phone, String address, String description, String equipment, String acces, String schedule, Double lat, Double lng, String img) {
-		this.id = id;
+	public CenterDto(Integer code, String name, String phone) {
+		this.code = code;
 		this.name = name;
-		this.email = email;
 		this.phone = phone;
-		this.address = address;
-		this.description = description;
-		this.equipment = equipment;
-		this.acces = acces;
-		this.schedule = schedule;
-		this.lat = lat;
-		this.lng = lng;
-		this.img = img;
 	}
 	
 	public CenterDto(Center center) {
 		this.id = center.getId();
+		this.code = center.getCode();
 		this.acces = center.getAcces();
 		this.address = center.getAddress();
 		this.description = center.getDescription();
@@ -179,9 +172,21 @@ public class CenterDto {
 	}
 
 
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public Integer getCode() {
+		return code;
+	}
+
+	public void setCode(Integer code) {
+		this.code = code;
+	}
+
 	@Override
 	public String toString() {
-		return "CenterDto [id=" + id + ", name=" + name + ", email=" + email + ", phone=" + phone + ", address=" + address
+		return "CenterDto [id=" + id + ", code=" + code + ", name=" + name + ", email=" + email + ", phone=" + phone + ", address=" + address
 				+ ", description=" + description + ", equipment=" + equipment + ", acces=" + acces + ", schedule="
 				+ schedule + ", lat=" + lat + ", lng=" + lng + ", img=" + img + "]";
 	}

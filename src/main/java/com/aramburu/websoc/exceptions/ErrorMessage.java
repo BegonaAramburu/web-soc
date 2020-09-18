@@ -13,6 +13,12 @@ public class ErrorMessage {
 		this.message = exception.getMessage();
 		this.path = path;
 	}
+	
+	public ErrorMessage(String message) {
+		this.message = message;
+		this.path = null;
+		this.error = null;
+	}
 
 	public String getError() {
 		return error;
