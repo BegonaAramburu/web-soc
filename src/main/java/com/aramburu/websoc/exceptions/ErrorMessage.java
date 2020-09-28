@@ -1,11 +1,16 @@
 package com.aramburu.websoc.exceptions;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ErrorMessage {
 	
+	@JsonProperty("status_code")
 	private final String error;
 	
+	@JsonProperty("message")
 	private final String message;
 	
+	 @JsonProperty("uri")
 	private final String path;
 	
 	public ErrorMessage(Exception exception, String path) {

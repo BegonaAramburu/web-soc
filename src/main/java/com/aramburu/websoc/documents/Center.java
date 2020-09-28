@@ -11,9 +11,7 @@ public class Center {
 	@Id
 	private String id;
 	
-	@Indexed//(unique=true)
 	private Integer code;
-	
 	private String name;
 	private String email;
 	private String phone;
@@ -31,6 +29,7 @@ public class Center {
 	public Center() {
 		
 	}
+	
 	
 	
 	public String getId() {
@@ -190,7 +189,10 @@ public class Center {
 	public boolean isActive() {
 		return active;
 	}
-
+	
+	public boolean getActive() {
+		return active;
+	}
 
 
 	public void setActive(boolean active) {

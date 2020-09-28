@@ -27,6 +27,7 @@ public class CenterControllerIT {
 	private CenterReactRepository centerReactRepository;
 	
 	
+	
 	@BeforeEach
 	void fillCenters() {
 		
@@ -176,6 +177,30 @@ public class CenterControllerIT {
 		
 	}
 	
+	
+//	@Test //No lo puedo probar xq el id es diferente cada vez
+//	void testUpdateCenter() {
+//		
+//		
+//		CenterDto centerDto10 = new CenterDto("8787878787", 10, "Name", "000000000");
+//		
+//		StepVerifier
+//		.create(this.centerController.createCenter(centerDto10))
+//		.expectNext()
+//		.expectComplete()
+//		.verify();
+//		
+//		
+//
+//		CenterDto centerDto = new CenterDto("8787878787", 10, "This is a new name", "999999999");
+//		StepVerifier
+//		
+//				.create(this.centerController.updateCenter(centerDto))
+//				.expectNextCount(1)
+//				.expectComplete()
+//				.verify();
+//	}
+//	  
 	
 	@AfterEach
 	void deleteCenters() {

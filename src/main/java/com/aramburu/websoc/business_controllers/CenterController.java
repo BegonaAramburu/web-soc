@@ -50,13 +50,16 @@ public class CenterController {
 	
 	
 	public Mono<Void> createCenter(CenterDto centerDto) {
-		Center center = Center.builder(centerDto.getCode()).name(centerDto.getName()).acces(centerDto.getAcces()).address(centerDto.getAcces()).description(centerDto.getDescription()).email(centerDto.getEmail()).img(centerDto.getImg()).lat(centerDto.getLat()).lng(centerDto.getLng()).phone(centerDto.getPhone()).schedule(centerDto.getSchedule()).build();		return this.centerReactRepository.save(center)
+		Center center = Center.builder(centerDto.getCode()).name(centerDto.getName()).acces(centerDto.getAcces()).address(centerDto.getAcces()).description(centerDto.getDescription()).email(centerDto.getEmail()).img(centerDto.getImg()).lat(centerDto.getLat()).lng(centerDto.getLng()).phone(centerDto.getPhone()).schedule(centerDto.getSchedule()).build();		
+		return this.centerReactRepository.save(center)
 				.then();
 	}
 	
+	
 	public Mono<CenterDto> createCenterDto(CenterDto centerDto) {
 		if(centerDto.getId() == null) {
-			Center center = Center.builder(centerDto.getCode()).name(centerDto.getName()).acces(centerDto.getAcces()).address(centerDto.getAcces()).description(centerDto.getDescription()).email(centerDto.getEmail()).img(centerDto.getImg()).lat(centerDto.getLat()).lng(centerDto.getLng()).phone(centerDto.getPhone()).schedule(centerDto.getSchedule()).build();			Mono<Void> notExistCode = this.notExistByCodeAssured(centerDto);
+			Center center = Center.builder(centerDto.getCode()).name(centerDto.getName()).acces(centerDto.getAcces()).address(centerDto.getAcces()).description(centerDto.getDescription()).email(centerDto.getEmail()).img(centerDto.getImg()).lat(centerDto.getLat()).lng(centerDto.getLng()).phone(centerDto.getPhone()).schedule(centerDto.getSchedule()).build();			
+			Mono<Void> notExistCode = this.notExistByCodeAssured(centerDto);
 			return Mono
 					.when(notExistCode)
 					.then(this.centerReactRepository.save(center))
@@ -88,6 +91,38 @@ public class CenterController {
 	public Mono<Void> deleteAllCenters(){
 		return this.centerReactRepository.deleteAll();
 	}
+	
+	
+	public Mono<CenterDto> updateCenter(String id, CenterDto centerDto){
+		Mono<Center> cent = this.getCenterById(id)
+				.switchIfEmpty(Mono.error(new NotFoundException("Not found id:" + id)))
+				.map(center ->{
+					center.setAcces(centerDto.getAcces());
+					center.setActive(centerDto.getActive());
+					center.setAddress(centerDto.getAddress());
+					center.setCode(centerDto.getCode());
+					center.setDescription(centerDto.getDescription());
+					center.setEmail(centerDto.getEmail());
+					center.setEquipment(centerDto.getEquipment());
+					center.setId(centerDto.getId());
+					center.setImg(centerDto.getImg());
+					center.setLat(centerDto.getLat());
+					center.setLng(centerDto.getLng());
+					center.setName(centerDto.getName());
+					center.setPhone(centerDto.getPhone());
+					center.setSchedule(centerDto.getSchedule());
+					return center;
+				});
+		
+		return Mono
+				.when(cent)
+				.then(this.centerReactRepository.saveAll(cent)
+						.next()
+						.map(CenterDto::new));
+				
+	}
+	
+	
 
 }
 

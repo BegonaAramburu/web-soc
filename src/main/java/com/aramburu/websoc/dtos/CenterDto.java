@@ -4,6 +4,8 @@ import com.aramburu.websoc.documents.Center;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import reactor.core.publisher.Mono;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -13,22 +15,23 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class CenterDto {
 	
+	
 	private String id;
 	
+	@NotNull(message = "Code can't be null")
 	private Integer code;
 	
-	//@StringNotNullOrEmpty
+	@NotNull(message = "Name can't be null")
 	private String name;
 	
-	@Pattern(regexp = com.aramburu.websoc.dtos.validations.Pattern.EMAIL_FORMAT)
-	@NotNull
+	private Boolean active;
+	
+	@Pattern(regexp = com.aramburu.websoc.dtos.validations.Pattern.EMAIL_FORMAT, message = "The mail format it's not correct")
 	private String email;
 	
-	@Pattern(regexp = com.aramburu.websoc.dtos.validations.Pattern.NINE_DIGITS)
-	@NotNull
+	@Pattern(regexp = com.aramburu.websoc.dtos.validations.Pattern.NINE_DIGITS, message = "The phone must have 9 numbers")
 	private String phone;
 	
-	@NotNull
 	private String address;
 	
 	@JsonInclude(Include.NON_NULL)
@@ -43,10 +46,8 @@ public class CenterDto {
 	@JsonInclude(Include.NON_NULL)
 	private String schedule;
 	
-	@NotNull
 	private Double lat;
 	
-	@NotNull
 	private Double lng;
 	
 	@JsonInclude(Include.NON_NULL)
@@ -54,6 +55,31 @@ public class CenterDto {
 	
 	public CenterDto() {}
 	
+	
+	
+	public CenterDto(String id, Integer code, String name, Boolean active,
+			@Pattern(regexp = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$") @NotNull String email,
+			@Pattern(regexp = "\\d{9}") @NotNull String phone, @NotNull String address, String description,
+			String equipment, String acces, String schedule, @NotNull Double lat, @NotNull Double lng, String img) {
+		super();
+		this.id = id;
+		this.code = code;
+		this.name = name;
+		this.active = active;
+		this.email = email;
+		this.phone = phone;
+		this.address = address;
+		this.description = description;
+		this.equipment = equipment;
+		this.acces = acces;
+		this.schedule = schedule;
+		this.lat = lat;
+		this.lng = lng;
+		this.img = img;
+	}
+
+
+
 	public CenterDto(Integer code, String name, String phone) {
 		this.code = code;
 		this.name = name;
@@ -74,8 +100,24 @@ public class CenterDto {
 		this.name = center.getName();
 		this.phone = center.getPhone();
 		this.schedule = center.getSchedule();
+		this.active = center.getActive();
+		
 	}
 	
+
+	public CenterDto(Mono<String> id2, int i, String string, String string2) {
+		// TODO Auto-generated constructor stub
+	}
+
+
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
 
 	public String getName() {
 		return name;
