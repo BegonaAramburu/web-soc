@@ -52,6 +52,7 @@ public class CenterResource {
 	}
 	
 	@DeleteMapping
+	
 	public Mono<Void> deleteAllCenters() {
 		return this.centerController.deleteAllCenters();
 	}
